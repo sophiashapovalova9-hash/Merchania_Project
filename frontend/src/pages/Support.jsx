@@ -42,17 +42,17 @@ const Support = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 text-slate-900 font-bold">
         <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm text-center">
           <Mail className="w-10 h-10 text-[#49b6ff] mx-auto mb-4" />
-          <h4 className="uppercase text-xs tracking-widest mb-2">Написать</h4>
+          <p className="uppercase text-xs tracking-widest mb-2">Написать</p>
           <span className="text-slate-300 text-[10px]">форма ниже</span>
         </div>
         <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm text-center">
           <MessageCircle className="w-10 h-10 text-[#ff499e] mx-auto mb-4" />
-          <h4 className="uppercase text-xs tracking-widest mb-2">Мои заявки</h4>
+          <p className="uppercase text-xs tracking-widest mb-2">Мои заявки</p>
           <span className="text-slate-300 text-[10px]">{tickets.length} в базе</span>
         </div>
         <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm text-center">
           <FileText className="w-10 h-10 text-slate-900 mx-auto mb-4" />
-          <h4 className="uppercase text-xs tracking-widest mb-2">FAQ</h4>
+          <p className="uppercase text-xs tracking-widest mb-2">FAQ</p>
           <span className="text-slate-300 text-[10px]">База знаний</span>
         </div>
       </div>

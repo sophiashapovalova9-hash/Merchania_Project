@@ -12,22 +12,23 @@ import Dashboard from './pages/Dashboard';
 import Support from './pages/Support';
 import { ShoppingBag, Search, Heart } from 'lucide-react';
 import { api } from './api';
+import { SiteLink, readRoute, rememberRoute } from './seo';
 
 const Header = ({ setPage, openCatalog, currentPage, catalogFilter, cartCount, onSearch }) => (
   <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
     <div className="container mx-auto px-6 h-20 flex items-center">
-      <button onClick={() => setPage('home')} className="flex items-center gap-2 border-none bg-transparent cursor-pointer group mr-20">
+      <SiteLink page="home" setPage={setPage} className="flex items-center gap-2 no-underline text-inherit group mr-20">
         <div className="w-10 h-10 bg-[#49b6ff] rounded-xl flex items-center justify-center shadow-lg shadow-blue-400/20 group-hover:scale-110 transition-transform">
           <ShoppingBag className="text-white w-6 h-6" />
         </div>
         <span className="text-2xl font-bold tracking-tight text-slate-900">Merchania</span>
-      </button>
+      </SiteLink>
 
       <nav className="hidden md:flex items-center gap-10 flex-1">
-        <button onClick={() => openCatalog()} className={`nav-button ${currentPage === 'catalog' && !catalogFilter.categoryName ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Каталог</button>
-        <button onClick={() => openCatalog({ categoryName: 'Стикеры' })} className={`nav-button ${currentPage === 'catalog' && catalogFilter.categoryName === 'Стикеры' ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Стикеры</button>
-        <button onClick={() => openCatalog({ categoryName: 'Значки' })} className={`nav-button ${currentPage === 'catalog' && catalogFilter.categoryName === 'Значки' ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Значки</button>
-        <button onClick={() => setPage('support')} className={`nav-button ${currentPage === 'support' ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Помощь</button>
+        <SiteLink page="catalog" onClick={() => openCatalog()} className={`nav-button no-underline ${currentPage === 'catalog' && !catalogFilter.categoryName ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Каталог</SiteLink>
+        <a href="/catalog?category=Стикеры" onClick={(event) => { event.preventDefault(); openCatalog({ categoryName: 'Стикеры' }); }} className={`nav-button no-underline ${currentPage === 'catalog' && catalogFilter.categoryName === 'Стикеры' ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Стикеры</a>
+        <a href="/catalog?category=Значки" onClick={(event) => { event.preventDefault(); openCatalog({ categoryName: 'Значки' }); }} className={`nav-button no-underline ${currentPage === 'catalog' && catalogFilter.categoryName === 'Значки' ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Значки</a>
+        <SiteLink page="support" setPage={setPage} className={`nav-button no-underline ${currentPage === 'support' ? 'text-[#49b6ff] font-bold' : 'text-slate-500 font-medium hover:text-[#49b6ff]'}`}>Помощь</SiteLink>
       </nav>
 
       <div className="flex items-center gap-4">
@@ -46,18 +47,18 @@ const Header = ({ setPage, openCatalog, currentPage, catalogFilter, cartCount, o
             className="pl-11 pr-6 py-2.5 bg-gray-50 border-none rounded-full w-64 focus:ring-2 focus:ring-[#49b6ff]/20 outline-none text-sm transition-all"
           />
         </form>
-        <button onClick={() => setPage('account')} className="p-2.5 text-gray-400 hover:text-[#ff499e] hover:bg-pink-50 rounded-full transition-all border-none bg-transparent cursor-pointer">
+        <SiteLink page="account" setPage={setPage} className="p-2.5 text-gray-400 hover:text-[#ff499e] hover:bg-pink-50 rounded-full transition-all no-underline">
           <Heart className="w-6 h-6" />
-        </button>
-        <button onClick={() => setPage('cart')} className="p-2.5 text-gray-400 hover:text-[#49b6ff] hover:bg-blue-50 rounded-full relative transition-all border-none bg-transparent cursor-pointer">
+        </SiteLink>
+        <SiteLink page="cart" setPage={setPage} className="p-2.5 text-gray-400 hover:text-[#49b6ff] hover:bg-blue-50 rounded-full relative transition-all no-underline">
           <ShoppingBag className="w-6 h-6" />
           {cartCount > 0 && (
             <span className="absolute top-2 right-2 bg-[#ff499e] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{cartCount}</span>
           )}
-        </button>
-        <button onClick={() => setPage('login')} className="btn-blue py-2 px-6 ml-2">
+        </SiteLink>
+        <SiteLink page="login" setPage={setPage} className="btn-blue py-2 px-6 ml-2 no-underline">
           Войти
-        </button>
+        </SiteLink>
       </div>
     </div>
   </header>
@@ -79,23 +80,23 @@ const Footer = ({ setPage, openCatalog }) => (
           </p>
         </div>
         <div>
-          <h4 className="font-bold mb-8 uppercase tracking-widest text-xs text-slate-500">Покупателям</h4>
+          <p className="font-bold mb-8 uppercase tracking-widest text-xs text-slate-500">Покупателям</p>
           <ul className="space-y-4 text-sm text-slate-300 list-none p-0">
-            <li><button onClick={() => openCatalog()} className="hover:text-[#49b6ff] bg-transparent border-none cursor-pointer p-0 text-left">Каталог товаров</button></li>
-            <li><button onClick={() => setPage('support')} className="hover:text-[#49b6ff] bg-transparent border-none cursor-pointer p-0 text-left">Доставка и оплата</button></li>
-            <li><button onClick={() => setPage('support')} className="hover:text-[#49b6ff] bg-transparent border-none cursor-pointer p-0 text-left">Вопросы и ответы</button></li>
+            <li><SiteLink page="catalog" onClick={() => openCatalog()} className="hover:text-[#49b6ff] no-underline">Каталог товаров</SiteLink></li>
+            <li><SiteLink page="support" setPage={setPage} className="hover:text-[#49b6ff] no-underline">Доставка и оплата</SiteLink></li>
+            <li><SiteLink page="support" setPage={setPage} className="hover:text-[#49b6ff] no-underline">Вопросы и ответы</SiteLink></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-bold mb-8 uppercase tracking-widest text-xs text-slate-500">Художникам</h4>
+          <p className="font-bold mb-8 uppercase tracking-widest text-xs text-slate-500">Художникам</p>
           <ul className="space-y-4 text-sm text-slate-300 list-none p-0">
-            <li><button onClick={() => setPage('register')} className="hover:text-[#ff499e] bg-transparent border-none cursor-pointer p-0 text-left">Стать продавцом</button></li>
-            <li><button onClick={() => setPage('dashboard')} className="hover:text-[#ff499e] bg-transparent border-none cursor-pointer p-0 text-left">Личный кабинет автора</button></li>
-            <li><button onClick={() => setPage('support')} className="hover:text-[#ff499e] bg-transparent border-none cursor-pointer p-0 text-left">Правила площадки</button></li>
+            <li><SiteLink page="register" setPage={setPage} className="hover:text-[#ff499e] no-underline">Стать продавцом</SiteLink></li>
+            <li><SiteLink page="dashboard" setPage={setPage} className="hover:text-[#ff499e] no-underline">Личный кабинет автора</SiteLink></li>
+            <li><SiteLink page="support" setPage={setPage} className="hover:text-[#ff499e] no-underline">Правила площадки</SiteLink></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-bold mb-8 uppercase tracking-widest text-xs text-slate-500">Контакты</h4>
+          <p className="font-bold mb-8 uppercase tracking-widest text-xs text-slate-500">Контакты</p>
           <p className="text-sm text-slate-300 mb-2">support@merchania.ru</p>
           <p className="text-sm text-slate-300">+7 (999) 000-00-00</p>
         </div>
@@ -112,9 +113,10 @@ const Footer = ({ setPage, openCatalog }) => (
 );
 
 export default function App() {
-  const [page, setPage] = useState('home');
-  const [productId, setProductId] = useState(null);
-  const [search, setSearch] = useState('');
+  const start = readRoute();
+  const [page, setPage] = useState(start.page);
+  const [productId, setProductId] = useState(start.productId);
+  const [search, setSearch] = useState(start.search);
   const [catalogFilter, setCatalogFilter] = useState({ fandomName: '', categoryName: '', search: '', tick: 0 });
   const [cartCount, setCartCount] = useState(0);
 
@@ -127,12 +129,25 @@ export default function App() {
     });
     setSearch(filter.search ?? '');
     setPage('catalog');
+    rememberRoute('catalog', null, filter.search || '');
   };
 
   const go = (next, id) => {
     if (id != null) setProductId(id);
     setPage(next);
+    rememberRoute(next, id);
   };
+
+  useEffect(() => {
+    const onPop = () => {
+      const route = readRoute();
+      setPage(route.page);
+      setProductId(route.productId);
+      setSearch(route.search);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -190,15 +205,16 @@ export default function App() {
       {!isDashboard && <Footer setPage={go} openCatalog={openCatalog} />}
 
       {!['cart', 'checkout', 'dashboard', 'login', 'register'].includes(page) && (
-        <button
-          onClick={() => go('cart')}
-          className="fixed bottom-10 right-10 w-16 h-16 bg-[#49b6ff] text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 border-none cursor-pointer"
+        <SiteLink
+          page="cart"
+          setPage={go}
+          className="fixed bottom-10 right-10 w-16 h-16 bg-[#49b6ff] text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 no-underline"
         >
           <ShoppingBag className="w-7 h-7" />
           {cartCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-[#ff499e] w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border-4 border-white">{cartCount}</span>
           )}
-        </button>
+        </SiteLink>
       )}
     </div>
   );

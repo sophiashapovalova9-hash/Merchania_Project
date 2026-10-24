@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ShieldCheck, CreditCard } from 'lucide-react';
 import { api, rub } from '../api';
+import { ClosedPage } from '../seo';
 
 const Checkout = ({ setPage }) => {
   const [cart, setCart] = useState(null);
@@ -32,6 +33,7 @@ const Checkout = ({ setPage }) => {
   if (done) {
     return (
       <div className="container mx-auto px-6 py-24 max-w-xl text-center">
+        <ClosedPage title="Заказ сохранён" />
         <h1 className="text-4xl font-black uppercase mb-6">Заказ сохранён</h1>
         <p className="text-slate-500 font-medium mb-4">Номер в базе: {done.order_id}. Статус: {done.status_name}.</p>
         <p className="text-slate-400 mb-10">Обнови страницу или зайди в кабинет — заказ не пропадёт, он лежит в таблице Orders.</p>
@@ -43,6 +45,7 @@ const Checkout = ({ setPage }) => {
   return (
     <div className="container mx-auto px-6 py-12 animate-in fade-in duration-500">
       <div className="max-w-5xl mx-auto">
+        <ClosedPage title="Оформление заказа" />
         <h1 className="text-4xl font-black text-slate-900 uppercase mb-16 tracking-tight">Оформление заказа</h1>
         {error && <p className="mb-8 text-sm font-bold text-red-400">{error}</p>}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -70,7 +73,7 @@ const Checkout = ({ setPage }) => {
 
           <aside>
             <div className="bg-white rounded-[48px] p-12 shadow-2xl shadow-slate-200/50 border border-slate-50 text-slate-900">
-              <h3 className="text-xl font-bold mb-10">Ваш заказ</h3>
+              <h2 className="text-xl font-bold mb-10">Ваш заказ</h2>
               <div className="space-y-6 mb-10 pb-10 border-b border-slate-50">
                 <div className="flex justify-between font-bold text-sm text-slate-400"><span>Товары</span><span className="text-slate-900">{rub(cart?.subtotal)}</span></div>
                 <div className="flex justify-between font-bold text-sm text-slate-400"><span>Доставка</span><span className="text-slate-900">{rub(cart?.shipping)}</span></div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Search, Heart, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { api, productImage, rub } from '../api';
+import { SiteLink } from '../seo';
 
 const Catalog = ({ setPage, search = '', catalogFilter }) => {
   const [showFilters, setShowFilters] = useState(true);
@@ -93,17 +94,17 @@ const Catalog = ({ setPage, search = '', catalogFilter }) => {
     <div className="container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12 animate-in fade-in duration-300">
       <aside className={`w-full lg:w-80 shrink-0 space-y-12 transition-all ${showFilters ? 'block' : 'hidden lg:block'}`}>
         <div>
-          <h2 className="text-xl font-bold mb-8 flex items-center justify-between text-slate-900">
+          <p className="text-xl font-bold mb-8 flex items-center justify-between text-slate-900">
             Фильтры
             <button
               onClick={() => setFilters({ fandomId: '', categoryId: '', sort: 'newest', page: 1, search: '', priceMin: '', priceMax: '' })}
               className="text-xs font-bold text-slate-400 hover:text-[#49b6ff] uppercase tracking-widest bg-transparent border-none cursor-pointer"
             >Сбросить</button>
-          </h2>
+          </p>
 
           <div className="space-y-12 text-slate-900">
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Фандом</h4>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Фандом</p>
               <div className="space-y-4 px-1">
                 {fandoms.map((fan) => (
                   <label key={fan.fandom_id} className="flex items-center gap-4 cursor-pointer group" onClick={() => toggle('fandomId', fan.fandom_id)}>
@@ -117,7 +118,7 @@ const Catalog = ({ setPage, search = '', catalogFilter }) => {
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Тип мерча</h4>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Тип мерча</p>
               <div className="space-y-4 px-1">
                 {categories.map((cat) => (
                   <label key={cat.category_id} className="flex items-center gap-4 cursor-pointer group" onClick={() => toggle('categoryId', cat.category_id)}>
@@ -131,7 +132,7 @@ const Catalog = ({ setPage, search = '', catalogFilter }) => {
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Цена, ₽</h4>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Цена, ₽</p>
               <div className="flex gap-4 items-center text-slate-900">
                 <input type="number" placeholder="От" value={filters.priceMin} onChange={(e) => setFilters((prev) => ({ ...prev, page: 1, priceMin: e.target.value }))} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-sm font-bold outline-none" />
                 <span className="text-slate-300 font-bold">—</span>
@@ -182,9 +183,11 @@ const Catalog = ({ setPage, search = '', catalogFilter }) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10">
           {products.map((item) => (
-            <div key={item.product_id} onClick={() => setPage('product', item.product_id)} className="group cursor-pointer">
+            <div key={item.product_id} className="group">
               <div className="aspect-square rounded-[48px] overflow-hidden mb-6 relative border border-slate-100 group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-500 bg-slate-50">
-                <img src={productImage(item)} alt={item.title} className="w-full h-full object-cover" />
+                <SiteLink page="product" id={item.product_id} setPage={setPage} className="block">
+                  <img src={productImage(item)} alt={item.title} width="640" height="640" className="w-full h-full object-cover" />
+                </SiteLink>
                 <button onClick={(e) => wish(e, item.product_id)} className={`absolute top-6 right-6 w-12 h-12 bg-white/90 backdrop-blur rounded-full flex items-center justify-center border-none cursor-pointer shadow-sm ${wished.includes(item.product_id) ? 'text-[#ff499e]' : 'text-slate-300 hover:text-[#ff499e]'}`}>
                   <Heart className={`w-6 h-6 ${wished.includes(item.product_id) ? 'fill-current' : ''}`} />
                 </button>
@@ -192,7 +195,9 @@ const Catalog = ({ setPage, search = '', catalogFilter }) => {
               </div>
               <div className="px-2">
                 <span className="text-[10px] font-bold text-[#49b6ff] uppercase tracking-widest mb-1 block">{item.shop_name}</span>
-                <h3 className="font-bold text-xl text-slate-900 group-hover:text-[#49b6ff] transition-colors leading-tight">{item.title}</h3>
+                <h2 className="font-bold text-xl text-slate-900 group-hover:text-[#49b6ff] transition-colors leading-tight">
+                  <SiteLink page="product" id={item.product_id} setPage={setPage} className="no-underline text-inherit">{item.title}</SiteLink>
+                </h2>
                 <div className="flex justify-between items-center mt-6">
                   <span className="text-3xl font-black text-slate-900">{rub(item.price)}</span>
                   <button onClick={(e) => add(e, item.product_id)} disabled={item.stock <= 0} className="btn-blue !rounded-2xl !px-8 !py-3 !text-xs !font-black !uppercase !tracking-[0.2em] shadow-lg shadow-blue-400/20 disabled:opacity-40">

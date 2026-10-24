@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Lock, User, ArrowRight, Globe } from 'lucide-react';
+import { ClosedPage, SiteLink } from '../seo';
 
 const Register = ({ setPage }) => {
   const [role, setRole] = useState('buyer');
@@ -7,8 +8,9 @@ const Register = ({ setPage }) => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 animate-in fade-in duration-300">
       <div className="max-w-md w-full">
+        <ClosedPage title="Регистрация" />
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">Регистрация</h2>
+          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">Регистрация</h1>
           <p className="text-slate-400 mt-4 font-medium">Присоединяйтесь к сообществу</p>
         </div>
 
@@ -60,10 +62,10 @@ const Register = ({ setPage }) => {
               </div>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">Новый аккаунт здесь не создаётся: покупатели и художники уже лежат в таблице UserAccount. Нажми кнопку и войди почтой из списка, пароль demo.</p>
-            <button onClick={() => setPage('login')} type="button" className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-wide text-white shadow-xl transition-all border-none cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap ${role === 'buyer' ? 'bg-[#49b6ff] shadow-blue-400/20' : 'bg-[#ff499e] shadow-pink-400/20'}`}>
+            <SiteLink page="login" setPage={setPage} className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-wide text-white shadow-xl transition-all no-underline inline-flex items-center justify-center gap-2 whitespace-nowrap ${role === 'buyer' ? 'bg-[#49b6ff] shadow-blue-400/20' : 'bg-[#ff499e] shadow-pink-400/20'}`}>
               Перейти ко входу
               <ArrowRight className="w-4 h-4 shrink-0" />
-            </button>
+            </SiteLink>
           </form>
         </div>
       </div>

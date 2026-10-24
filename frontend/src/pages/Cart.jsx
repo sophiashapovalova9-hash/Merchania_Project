@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Trash2, Plus, Minus, ArrowRight, Truck } from 'lucide-react';
 import { api, productImage, rub } from '../api';
+import { ClosedPage } from '../seo';
 
 const Cart = ({ setPage }) => {
   const [cart, setCart] = useState(null);
@@ -30,6 +31,7 @@ const Cart = ({ setPage }) => {
 
   return (
     <div className="container mx-auto px-6 py-12 animate-in fade-in duration-500">
+      <ClosedPage title="Корзина" />
       <h1 className="text-4xl font-black mb-16 tracking-tight uppercase text-slate-900">Ваша корзина</h1>
       {error && <p className="mb-8 text-sm font-bold text-red-400">{error}</p>}
 
@@ -38,10 +40,10 @@ const Cart = ({ setPage }) => {
           {cart.items.length === 0 && <p className="text-slate-400 font-bold">Корзина пустая. Добавь товар из каталога — он сохранится в базе.</p>}
           {cart.items.map((item) => (
             <div key={item.product_id} className="flex flex-col sm:flex-row items-center gap-8 p-8 border border-slate-100 rounded-[40px] bg-white shadow-sm">
-              <img src={productImage(item)} alt="" className="w-24 h-24 rounded-3xl object-cover bg-slate-100" />
+              <img src={productImage(item)} alt={item.title} width="96" height="96" className="w-24 h-24 rounded-3xl object-cover bg-slate-100" />
               <div className="flex-1 text-center sm:text-left">
                 <span className="text-[10px] font-bold text-[#49b6ff] uppercase tracking-widest mb-1 block">{item.shop_name}</span>
-                <h3 className="font-bold text-xl text-slate-800 tracking-tight">{item.title}</h3>
+                <h2 className="font-bold text-xl text-slate-800 tracking-tight">{item.title}</h2>
               </div>
               <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-2xl">
                 <button onClick={() => change(item.product_id, Math.max(1, item.quantity - 1))} className="w-9 h-9 bg-white rounded-lg shadow-sm border-none cursor-pointer inline-flex items-center justify-center p-0"><Minus className="w-4 h-4" /></button>
@@ -65,7 +67,7 @@ const Cart = ({ setPage }) => {
 
         <aside className="space-y-8">
           <div className="bg-white rounded-[48px] p-10 shadow-2xl shadow-slate-200/50 border border-slate-50 text-slate-900">
-            <h3 className="text-xl font-bold mb-10 tracking-tight">Итог заказа</h3>
+            <h2 className="text-xl font-bold mb-10 tracking-tight">Итог заказа</h2>
             <div className="space-y-5 mb-10 pb-10 border-b border-slate-50">
               <div className="flex justify-between text-sm font-bold text-slate-400 uppercase tracking-widest">
                 <span>Товары ({cart.items_count})</span>
