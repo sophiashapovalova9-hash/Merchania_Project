@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LayoutDashboard, Box, Package, Truck, BarChart3, LogOut, Plus } from 'lucide-react';
 import { api, productImage, rub, when } from '../api';
+import { ClosedPage, SiteLink } from '../seo';
 
 const Dashboard = ({ setPage }) => {
   const [activeTab, setActiveTab] = useState('analytics');
@@ -16,6 +17,7 @@ const Dashboard = ({ setPage }) => {
     return (
       <div className="min-h-screen flex items-center justify-center p-10 text-center">
         <div>
+          <ClosedPage title="Панель художника" />
           <h1 className="text-3xl font-black uppercase mb-4">Это панель художника</h1>
           <p className="text-slate-400 mb-8">Сейчас ты покупатель. Войди как studio.pan@example.com, пароль demo.</p>
           <button onClick={() => setPage('login')} className="btn-blue">Войти художником</button>
@@ -26,6 +28,7 @@ const Dashboard = ({ setPage }) => {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] flex">
+      <ClosedPage title="Панель художника" />
       <aside className="w-80 bg-white border-r border-slate-100 flex flex-col fixed inset-y-0">
         <div className="p-10">
           <button onClick={() => setPage('home')} className="flex items-center gap-3 border-none bg-transparent cursor-pointer">
@@ -82,17 +85,17 @@ const AnalyticsView = () => {
         {cards.map((card) => (
           <div key={card.label} className="bg-white p-8 rounded-[40px] border border-slate-50">
             <span className="text-[10px] font-bold uppercase text-slate-300 tracking-widest block mb-4">{card.label}</span>
-            <h3 className="text-3xl font-black">{card.val}</h3>
+            <p className="text-3xl font-black">{card.val}</p>
           </div>
         ))}
       </div>
       <div className="bg-white p-10 rounded-[40px] border border-slate-50">
-        <h3 className="text-xl font-bold mb-8">Топ товаров</h3>
+        <h2 className="text-xl font-bold mb-8">Топ товаров</h2>
         {data.top_products.length === 0 && <p className="text-slate-400">Пока нет продаж. Когда покупатель оформит заказ, цифры появятся здесь.</p>}
         <div className="space-y-6">
           {data.top_products.map((item) => (
             <div key={item.product_id} className="flex items-center gap-6">
-              <img src={productImage(item)} alt="" className="w-16 h-16 rounded-2xl object-cover bg-slate-50" />
+              <img src={productImage(item)} alt={item.title} width="64" height="64" className="w-16 h-16 rounded-2xl object-cover bg-slate-50" />
               <div className="flex-1">
                 <span className="font-bold block">{item.title}</span>
                 <span className="text-[10px] font-bold text-slate-300 uppercase">{item.quantity_sold} шт.</span>
@@ -194,7 +197,7 @@ const ProductsView = () => {
               <tr key={item.product_id} className="border-b border-slate-50">
                 <td className="p-6">
                   <div className="flex items-center gap-4">
-                    <img src={`${productImage(item)}&t=${stamp}`} alt="" className="w-14 h-14 rounded-2xl object-cover bg-slate-50" />
+                    <img src={`${productImage(item)}&t=${stamp}`} alt={item.title} width="56" height="56" className="w-14 h-14 rounded-2xl object-cover bg-slate-50" />
                     <div>
                       <span className="font-bold block">{item.title}</span>
                       <span className="text-xs text-slate-400">{rub(item.price)} · {item.category_name}</span>

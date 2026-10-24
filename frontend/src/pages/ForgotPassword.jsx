@@ -1,11 +1,13 @@
 import { Mail, ArrowLeft } from 'lucide-react';
+import { ClosedPage } from '../seo';
 
 const ForgotPassword = ({ setPage }) => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 animate-in fade-in duration-300">
       <div className="max-w-md w-full">
+        <ClosedPage title="Восстановление пароля" />
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">Сброс пароля</h2>
+          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">Сброс пароля</h1>
           <p className="text-slate-400 mt-4 font-medium">Введите Email для восстановления доступа</p>
         </div>
 

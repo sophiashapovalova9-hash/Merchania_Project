@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Star, Heart, ShieldCheck, Truck, RotateCcw, ChevronRight } from 'lucide-react';
 import { api, productImage, rub } from '../api';
+import { SiteLink } from '../seo';
 
 const Product = ({ setPage, productId }) => {
   const [product, setProduct] = useState(null);
@@ -47,16 +48,16 @@ const Product = ({ setPage, productId }) => {
   return (
     <div className="container mx-auto px-6 py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <nav className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-slate-400 mb-12">
-        <button onClick={() => setPage('home')} className="hover:text-[#49b6ff] border-none bg-transparent cursor-pointer">Главная</button>
+        <SiteLink page="home" setPage={setPage} className="hover:text-[#49b6ff] no-underline">Главная</SiteLink>
         <ChevronRight className="w-4 h-4" />
-        <button onClick={() => setPage('catalog')} className="hover:text-[#49b6ff] border-none bg-transparent cursor-pointer">Каталог</button>
+        <SiteLink page="catalog" setPage={setPage} className="hover:text-[#49b6ff] no-underline">Каталог</SiteLink>
         <ChevronRight className="w-4 h-4" />
         <span className="text-slate-900">{product.title}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-32">
         <div className="aspect-square bg-slate-50 rounded-[64px] overflow-hidden border border-slate-100 shadow-inner">
-          <img src={productImage(product)} alt={product.title} className="w-full h-full object-cover" />
+          <img src={productImage(product)} alt={product.title} width="800" height="800" className="w-full h-full object-cover" />
         </div>
 
         <div className="pt-6 text-slate-900">

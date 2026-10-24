@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Heart, User, LogOut, Package } from 'lucide-react';
 import { api, logout, productImage, rub, when } from '../api';
+import { ClosedPage, SiteLink } from '../seo';
 
 const Account = ({ setPage }) => {
   const [tab, setTab] = useState('orders');
@@ -39,12 +40,13 @@ const Account = ({ setPage }) => {
 
   return (
     <div className="container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+      <ClosedPage title="Личный кабинет" />
       <aside className="w-full lg:w-80 shrink-0">
         <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm text-center">
           <div className="w-20 h-20 bg-[#49b6ff] rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">
             {(me?.first_name || 'М')[0]}
           </div>
-          <h3 className="font-bold text-slate-900 mb-1">{me ? `${me.first_name || ''} ${me.last_name || ''}` : '...'}</h3>
+          <p className="font-bold text-slate-900 mb-1">{me ? `${me.first_name || ''} ${me.last_name || ''}` : '...'}</p>
           <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{me?.email}</p>
           <nav className="mt-12 space-y-2 text-left">
             <button onClick={() => setTab('orders')} className={`w-full flex items-center gap-4 px-6 py-3 rounded-2xl font-bold text-sm border-none cursor-pointer ${tab === 'orders' ? 'bg-blue-50 text-[#49b6ff]' : 'text-slate-400'}`}><Package className="w-5 h-5" /> Заказы</button>
@@ -86,11 +88,11 @@ const Account = ({ setPage }) => {
             {wishes.length === 0 && <p className="text-slate-400 font-bold">Сердечко на товаре сохраняет его в таблицу Wishlist.</p>}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {wishes.map((item) => (
-                <button key={item.product_id} onClick={() => setPage('product', item.product_id)} className="text-left bg-white rounded-[32px] border border-slate-100 p-4 cursor-pointer">
-                  <img src={productImage(item)} alt="" className="w-full aspect-square object-cover rounded-3xl mb-4" />
+                <SiteLink key={item.product_id} page="product" id={item.product_id} setPage={setPage} className="text-left bg-white rounded-[32px] border border-slate-100 p-4 no-underline text-inherit block">
+                  <img src={productImage(item)} alt={item.title} width="400" height="400" className="w-full aspect-square object-cover rounded-3xl mb-4" />
                   <span className="font-bold block">{item.title}</span>
                   <span className="text-[#ff499e] font-black">{rub(item.price)}</span>
-                </button>
+                </SiteLink>
               ))}
             </div>
           </div>
