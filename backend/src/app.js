@@ -13,6 +13,14 @@ export function createApp() {
 
   app.use(express.json({ limit: '8mb' }));
   app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
+  app.use((_req, res, next) => {
+    res.set('X-Robots-Tag', 'noindex, nofollow');
+    next();
+  });
+
+  app.get('/robots.txt', (_req, res) => {
+    res.type('text/plain').send('User-agent: *\nDisallow: /\n');
+  });
 
   app.get('/', (_req, res) =>
     res.json({
