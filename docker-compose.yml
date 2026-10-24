@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      PORT: "4000"
+      MOCK_DB: "false"
+      CORS_ORIGIN: "*"
+      DEMO_USER_ID: "1"
+    ports:
+      - "4000:4000"
+    restart: on-failure
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
