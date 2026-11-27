@@ -26,9 +26,13 @@ export function rub(value) {
   return `${new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 }).format(n)} ₽`;
 }
 
-export function productImage(item) {
+export function productImage(item, stamp) {
+  const url = item?.image_url;
+  if (typeof url === 'string' && /^https?:\/\//i.test(url)) return url;
   const id = item?.product_id;
-  return id ? `/api/products/${id}/image?v=3` : '';
+  if (!id) return '';
+  const base = `/api/products/${id}/image?v=4`;
+  return stamp ? `${base}&t=${stamp}` : base;
 }
 
 export function when(value) {

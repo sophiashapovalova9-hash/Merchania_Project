@@ -197,7 +197,7 @@ const ProductsView = () => {
               <tr key={item.product_id} className="border-b border-slate-50">
                 <td className="p-6">
                   <div className="flex items-center gap-4">
-                    <img src={`${productImage(item)}&t=${stamp}`} alt={item.title} width="56" height="56" className="w-14 h-14 rounded-2xl object-cover bg-slate-50" />
+                    <img src={productImage(item, stamp)} alt={item.title} width="56" height="56" className="w-14 h-14 rounded-2xl object-cover bg-slate-50" />
                     <div>
                       <span className="font-bold block">{item.title}</span>
                       <span className="text-xs text-slate-400">{rub(item.price)} · {item.category_name}</span>

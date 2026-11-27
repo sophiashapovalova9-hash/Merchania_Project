@@ -14,3 +14,7 @@ npm-debug.log*
 .vscode/
 
 uploads/
+
+deploy/certs/*.pem
+deploy/certs/*.key
+deploy/certs/*.crt

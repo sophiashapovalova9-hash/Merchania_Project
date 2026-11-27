@@ -66,14 +66,7 @@ async function storeFileImage(productId, buffer) {
 
 export async function readProductImage(productId) {
   const file = readFileImage(productId);
-  if (file && !env.mockDb) {
-    try {
-      await storeFileImage(productId, file.buffer);
-    } catch (err) {
-      console.error(`[db] фото ${productId} не записалось: ${err.message}`);
-    }
-    return file;
-  }
+  if (file) return file;
   if (!env.mockDb) {
     try {
       const { rows } = await getDb().query(
@@ -101,59 +94,8 @@ let synced = false;
 
 export async function ensureProductImages() {
   if (env.mockDb || synced) return 0;
-  const db = getDb();
-
-  await db.query(`
-    UPDATE ProductMedia
-       SET ImageURL = '/api/products/' || ProductID::text || '/image'
-     WHERE ImageURL NOT LIKE '/api/products/%';`);
-
-  let written = 0;
-  const files = readdirSync(assetsDir).filter((name) => name.endsWith('.png'));
-  for (const name of files) {
-    const productId = Number(name.replace(/\.png$/, ''));
-    if (!productId) continue;
-    const image = readFileSync(path.join(assetsDir, name));
-    const url = `/api/products/${productId}/image`;
-    const { rows: products } = await db.query(
-      'SELECT ProductID AS product_id FROM Product WHERE ProductID = @productId;',
-      { productId: q.int(productId) },
-    );
-    if (!products[0]) continue;
-
-    const { rows: media } = await db.query(
-      'SELECT MediaID AS media_id, octet_length(ImageData) AS bytes FROM ProductMedia WHERE ProductID = @productId;',
-      { productId: q.int(productId) },
-    );
-
-    const payload = {
-      productId: q.int(productId),
-      url: q.text(url, 500),
-      image: { type: 'VarBinary', value: image },
-    };
-
-    if (!media[0]) {
-      await db.query(
-        `
-        INSERT INTO ProductMedia (ProductID, ImageURL, IsMain, ImageData, MimeType)
-        VALUES (@productId, @url, true, @image, 'image/png');`,
-        payload,
-      );
-    } else {
-      await db.query(
-        `
-        UPDATE ProductMedia
-           SET ImageData = @image, MimeType = 'image/png', ImageURL = @url, IsMain = true
-         WHERE ProductID = @productId;`,
-        payload,
-      );
-    }
-    written += 1;
-  }
-
-  const { rows: existing } = await db.query('SELECT COUNT(*) AS total FROM Product');
-  if (Number(existing[0]?.total ?? 0) > 0) synced = true;
-  return written;
+  synced = true;
+  return 0;
 }
 
 export function resetImageSync() {

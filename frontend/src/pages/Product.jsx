@@ -25,7 +25,28 @@ const Product = ({ setPage, productId }) => {
   }
 
   if (error) return <p className="container mx-auto px-6 py-24 text-red-400 font-bold">{error}</p>;
-  if (!product) return <p className="container mx-auto px-6 py-24 text-slate-400 font-bold">Загружаю товар...</p>;
+  if (!product) {
+    return (
+      <div className="container mx-auto px-6 py-12 min-h-screen" aria-busy="true">
+        <p className="text-slate-400 font-bold mb-12">Загружаю товар...</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-32">
+          <div className="aspect-square bg-slate-50 rounded-[64px] border border-slate-100" />
+          <div className="pt-6 space-y-6">
+            <div className="h-5 w-40 bg-slate-100 rounded-full" />
+            <div className="h-16 w-4/5 bg-slate-100 rounded-2xl" />
+            <div className="h-10 w-32 bg-slate-100 rounded-xl" />
+            <div className="h-24 w-full bg-slate-100 rounded-2xl" />
+            <div className="h-16 w-full bg-slate-100 rounded-full" />
+            <div className="grid grid-cols-3 gap-6 pt-4">
+              <div className="h-32 bg-slate-100 rounded-3xl" />
+              <div className="h-32 bg-slate-100 rounded-3xl" />
+              <div className="h-32 bg-slate-100 rounded-3xl" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const add = async () => {
     try {
@@ -46,7 +67,7 @@ const Product = ({ setPage, productId }) => {
   };
 
   return (
-    <div className="container mx-auto px-6 py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="container mx-auto px-6 py-12 min-h-screen">
       <nav className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-slate-400 mb-12">
         <SiteLink page="home" setPage={setPage} className="hover:text-[#49b6ff] no-underline">Главная</SiteLink>
         <ChevronRight className="w-4 h-4" />

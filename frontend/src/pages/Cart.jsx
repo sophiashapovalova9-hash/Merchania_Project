@@ -27,10 +27,23 @@ const Cart = ({ setPage }) => {
   };
 
   if (error && !cart) return <p className="container mx-auto px-6 py-24 text-red-400 font-bold">{error}</p>;
-  if (!cart) return <p className="container mx-auto px-6 py-24 text-slate-400 font-bold">Загружаю корзину...</p>;
+  if (!cart) {
+    return (
+      <div className="container mx-auto px-6 py-12 min-h-screen" aria-busy="true">
+        <h1 className="text-4xl font-black mb-16 tracking-tight uppercase text-slate-900">Ваша корзина</h1>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-20">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="h-40 rounded-[40px] bg-slate-50 border border-slate-100" />
+            <div className="h-40 rounded-[40px] bg-slate-50 border border-slate-100" />
+          </div>
+          <div className="h-96 rounded-[48px] bg-slate-50 border border-slate-100" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-6 py-12 animate-in fade-in duration-500">
+    <div className="container mx-auto px-6 py-12 min-h-screen">
       <ClosedPage title="Корзина" />
       <h1 className="text-4xl font-black mb-16 tracking-tight uppercase text-slate-900">Ваша корзина</h1>
       {error && <p className="mb-8 text-sm font-bold text-red-400">{error}</p>}

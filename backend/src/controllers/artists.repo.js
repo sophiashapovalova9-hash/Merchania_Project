@@ -117,10 +117,18 @@ export async function listArtistProducts(artistId) {
   const { rows } = await getDb().query(
     `
     SELECT p.ProductID AS product_id, p.Title AS title, p.Price AS price,
-           p.StockQuantity AS stock, c.CategoryName AS category_name, f.FandomName AS fandom_name
+           p.StockQuantity AS stock, c.CategoryName AS category_name, f.FandomName AS fandom_name,
+           main_img.ImageURL AS image_url
     FROM Product p
     JOIN Category c ON c.CategoryID = p.CategoryID
     JOIN Fandom f ON f.FandomID = p.FandomID
+    LEFT JOIN LATERAL (
+      SELECT m.ImageURL
+      FROM ProductMedia m
+      WHERE m.ProductID = p.ProductID
+      ORDER BY m.IsMain DESC, m.MediaID
+      LIMIT 1
+    ) main_img ON true
     WHERE p.ArtistID = @artistId
     ORDER BY p.CreatedAt DESC, p.ProductID DESC;`,
     { artistId: q.int(artistId) },

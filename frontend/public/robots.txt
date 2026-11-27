@@ -1,6 +1,3 @@
-# Merchania. Файл закрывает сканирование, но не заменяет пароль.
-# Пока нет своего домена, карта указана на example.com.
-
 User-agent: *
 Disallow: /login
 Disallow: /register

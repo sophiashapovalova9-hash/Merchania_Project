@@ -206,7 +206,7 @@ join category c on c.categoryname = v.category
 join fandom f on f.fandomname = v.fandom
 on conflict (productid) do nothing;
 
--- Сами картинки этот скрипт не кладёт: их допишет бэкенд в imagedata при первом запуске.
+-- Картинки в базу не кладём. Ссылку на Storage дописывает backend/sql/storage-links.sql.
 insert into productmedia (productid, imageurl, ismain, mimetype)
 select p.productid,
        '/api/products/' || p.productid::text || '/image',

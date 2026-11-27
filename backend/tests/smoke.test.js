@@ -25,6 +25,14 @@ async function api(method, path, { body, headers = BUYER } = {}) {
   return { status: res.status, body: await res.json() };
 }
 
+test('API закрыт от индексации', async () => {
+  const res = await fetch(`http://127.0.0.1:${port}/api/health`);
+  assert.equal(res.headers.get('x-robots-tag'), 'noindex, nofollow');
+  const robots = await fetch(`http://127.0.0.1:${port}/robots.txt`);
+  assert.equal(robots.status, 200);
+  assert.match(await robots.text(), /Disallow: \//);
+});
+
 test('health: мок-режим отвечает', async () => {
   const { status, body } = await api('GET', '/api/health', { headers: {} });
   assert.equal(status, 200);

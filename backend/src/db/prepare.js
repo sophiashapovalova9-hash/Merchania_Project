@@ -27,8 +27,8 @@ async function seedIfEmpty() {
 
 async function run() {
   const products = await seedIfEmpty();
-  const images = await ensureProductImages();
-  console.log(`[db] тестовые товары: ${products || 'уже были'}, фото дописано: ${images}`);
+  await ensureProductImages();
+  console.log(`[db] тестовые товары: ${products || 'уже были'}. Картинки в базу не пишу: в productmedia должна быть ссылка.`);
 }
 
 export function prepareDatabase() {

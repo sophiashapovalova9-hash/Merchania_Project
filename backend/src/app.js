@@ -9,6 +9,7 @@ export function createApp() {
   const app = express();
 
   app.disable('x-powered-by');
+  app.set('trust proxy', 1);
   app.use(cors({ origin: env.corsOrigin === '*' ? true : env.corsOrigin.split(',').map((s) => s.trim()) }));
 
   app.use(express.json({ limit: '8mb' }));
